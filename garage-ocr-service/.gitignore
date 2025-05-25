@@ -1,0 +1,20 @@
+# Ignorar ambientes virtuais Python
+venv*/
+*/venv*/
+*/venv*/
+
+# Ignorar pastas compiladas do Maven/Gradle
+target/
+build/
+
+# Ignorar arquivos binários grandes
+*.jar
+*.dll
+*.pyd
+*.lib
+*.exe
+
+# Cache e metadados
+__pycache__/
+*.log
+*.pyc

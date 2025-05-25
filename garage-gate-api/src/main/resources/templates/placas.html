@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Placas</title>
+</head>
+<body>
+    <h1>Placas Autorizadas</h1>
+
+    <form th:action="@{/placas}" method="post">
+        <input type="text" name="placa" placeholder="Placa (ex: ABC1234)" required>
+        <input type="text" name="dono" placeholder="Nome do dono" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Dono</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${placas}">
+                <td th:text="${p.placa}"></td>
+                <td th:text="${p.dono}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><a th:href="@{/}">Voltar</a></p>
+</body>
+</html>

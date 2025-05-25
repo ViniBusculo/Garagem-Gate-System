@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Portão da Garagem</title>
+</head>
+<body>
+    <h1>Reconhecimento de Placa</h1>
+
+    <div th:if="${placa}">
+        <h2>Resultado</h2>
+        <p>Placa detectada: <strong th:text="${placa}"></strong></p>
+        <p th:if="${autorizado}" style="color:green;"><strong>ACESSO LIBERADO</strong></p>
+        <p th:unless="${autorizado}" style="color:red;"><strong>ACESSO NEGADO</strong></p>
+    </div>
+
+    <div id="resultado"></div>
+
+    <h2>Reconhecimento em tempo real</h2>
+    <form action="/acesso/teste-local" method="get">
+        <button type="submit">Verificar Placa (via câmera)</button>
+    </form>
+
+    <p th:if="${mensagem}" style="color: green;">
+        <strong th:text="${mensagem}"></strong>
+    </p>
+
+    <p><a th:href="@{/placas}">Gerenciar Placas</a> | <a th:href="@{/logs}">Ver Registros</a></p>
+
+    <h2>Gerenciamento de Logs</h2>
+    <form action="/limpar-logs" method="post">
+        <button type="submit">Limpar Todos os Logs</button>
+    </form>
+</body>
+
+<script>
+    setInterval(() => {
+        fetch('/status-placa')
+            .then(response => response.json())
+            .then(data => {
+                if (data.placa) {
+                    document.getElementById('resultado').innerHTML = `
+                        <p>Placa detectada: <strong>${data.placa}</strong></p>
+                        <p style="color:${data.autorizado ? 'green' : 'red'};">
+                            <strong>${data.autorizado ? 'ACESSO LIBERADO' : 'ACESSO NEGADO'}</strong>
+                        </p>
+                    `;
+                }
+            });
+    }, 3000); // Atualiza a cada 3 segundos
+</script>
+
+</html>
